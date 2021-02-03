@@ -242,8 +242,7 @@ message.channel.send(errEmbed);
 };
 });
 
-
-
+const tConfig = require("./configuration/twitter");
 // twitter :
 bot.on("message", async message => {
   if(message.author.bot || message.channel.type === "dm") return;
@@ -323,13 +322,6 @@ const errEmbed = new Discord.MessageEmbed()
 message.channel.send(errEmbed);
 };
 });
-
-
-
-
-
-
-
 
 
 function checkVar(text, user) {

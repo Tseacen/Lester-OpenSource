@@ -3,11 +3,10 @@ const Discord = require("discord.js")
 const GuildSettings = require("../models/settings");
 const twitterSettings = require("../models/twitter");
 const darknetSettings = require("../models/darknet");
-const economySettings = require("../models/economy");
-const userBank = require("../models/user-bank");
 const logsSettings = require("../models/logs");
-const robbery = require("../models/robbery");
 const lspdSettings = require("../models/lspd");
+const emsSettings = require("../models/ems");
+
 
 module.exports.run = async (bot, message, args) => {
 
@@ -22,7 +21,7 @@ module.exports.run = async (bot, message, args) => {
         let embed = new Discord.MessageEmbed()
         .setColor("BLUE")
         .setAuthor("Configuration")
-        .setDescription(`\`${prefix}config twitter <salon>\`\nConfiguration du salon Twitter \n\n\`${prefix}config darknet <salon>\`\nConfiguration du salon Darknet  \n\n\`${prefix}config logs <salon>\`\nConfiguration du salon Logs \n\n\`${prefix}config lspd <salon>\`\nConfiguration du salon LSPD \n\n\`${prefix}config ems <salon>\`\nConfiguration du salon EMS`);
+        .setDescription(`\`${prefix}config twitter <salon>\`\nConfiguration du salon Twitter \n\n\`${prefix}config darknet <salon>\`\nConfiguration du salon Darknet  \n\n\`${prefix}config logs <salon>\`\nConfiguration du salon Logs \n\n\`${prefix}config lspd <salon>\`\nConfiguration du salon LSPD \n\n\`${prefix}config ems <salon>\`\nConfiguration du salon EMS\n\n\`${prefix}config show\`\nAffiche la liste des configurations`);
         message.channel.send(embed);
         return;
     }
@@ -87,6 +86,29 @@ module.exports.run = async (bot, message, args) => {
         await ems.save().catch(()=>{});
 
         message.channel.send(successConfig);
+    }
+
+    if(args[0] === "show") {
+
+        let logs = await logsSettings.findOne({ gid: message.guild.id });
+        let ems = await emsSettings.findOne({ gid: message.guild.id });
+        let darknet = await darknetSettings.findOne({ gid: message.guild.id });
+        let lspd = await lspdSettings.findOne({ gid: message.guild.id });
+        let twitter = await twitterSettings.findOne({ gid: message.guild.id });
+
+        logs = logs.channel;
+        ems = ems.channel;
+        darknet = darknet.channel;
+        lspd = lspd.channel;
+        twitter = twitter.channel;
+
+        let embed = new Discord.MessageEmbed()
+        .setAuthor("Configuration des salons :")
+        .setColor("RANDOM")
+        .setDescription(`Twitter : <#${twitter}>\nDarknet : <#${darknet}>\nLogs : <#${logs}>\nLSPD : <#${lspd}>\nEMS : <#${ems}>`)
+        .setFooter(`${message.guild.name}`, message.guild.iconURL);
+
+        message.channel.send(embed);
     }
 }
 
