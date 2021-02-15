@@ -41,7 +41,7 @@
     "js": "^0.1.0",
     "jsdom": "^16.4.0",
     "klaw": "^3.0.0",
-    "marked": "^1.2.7",
+    "marked": "^2.0.0",
     "memorystore": "^1.6.4",
     "moment": "^2.29.1",
     "moment-duration": "0.0.6",
